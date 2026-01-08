@@ -95,19 +95,7 @@
                         </views:ScriptEditorView.Style>
                     </views:ScriptEditorView>
 
-                    <!-- Scheduler View -->
-                    <views:SchedulerView>
-                        <views:SchedulerView.Style>
-                            <Style TargetType="views:SchedulerView">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentView}" Value="Scheduler">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </views:SchedulerView.Style>
-                    </views:SchedulerView>
+
 
                     <!-- Log View -->
                     <views:LogView>
@@ -147,7 +135,7 @@
                                     <DataTrigger Binding="{Binding CurrentView}" Value="Devices"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
                                     <DataTrigger Binding="{Binding CurrentView}" Value="Scripts"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
                                     <DataTrigger Binding="{Binding CurrentView}" Value="ScriptEditor"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
-                                    <DataTrigger Binding="{Binding CurrentView}" Value="Scheduler"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+
                                     <DataTrigger Binding="{Binding CurrentView}" Value="Logs"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
                                     <DataTrigger Binding="{Binding CurrentView}" Value="Settings"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
                                 </Style.Triggers>
@@ -257,7 +245,7 @@
                         </TextBlock.Effect>
                     </TextBlock>
 
-                    <TextBlock Text="{Binding LoadingStatus, FallbackValue='�ang kh?i t?o h? th?ng...'}" 
+                    <TextBlock Text="{Binding LoadingStatus, FallbackValue='Đang khởi tạo hệ thống...'}" 
                                FontSize="16" 
                                Foreground="#94A3B8" 
                                Margin="0,12,0,0"

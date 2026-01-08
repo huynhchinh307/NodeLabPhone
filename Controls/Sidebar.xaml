@@ -126,22 +126,7 @@
                         <TextBlock Text="Kịch bản" FontSize="9" Margin="0,4,0,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
                     </StackPanel>
                 </ui:Button>
-                <ui:Button Command="{Binding NavigateCommand}" CommandParameter="Scheduler">
-                    <ui:Button.Style>
-                        <Style TargetType="ui:Button" BasedOn="{StaticResource SidebarButton}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding CurrentView}" Value="Scheduler">
-                                    <Setter Property="Background" Value="#2d2f39"/>
-                                    <Setter Property="Foreground" Value="White"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ui:Button.Style>
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                        <ui:SymbolIcon Symbol="Desktop24" FontSize="20" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
-                        <TextBlock Text="Lập lịch" FontSize="9" Margin="0,4,0,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
-                    </StackPanel>
-                </ui:Button>
+
                 <ui:Button Command="{Binding NavigateCommand}" CommandParameter="Logs">
                     <ui:Button.Style>
                         <Style TargetType="ui:Button" BasedOn="{StaticResource SidebarButton}">

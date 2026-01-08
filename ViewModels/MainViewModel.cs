@@ -21,7 +21,7 @@ namespace NodeLabFarm.ViewModels
         private string _currentView = "Dashboard";
         private string _adbPath = "adb.exe";
         private ScriptModel? _currentScript;
-        private SchedulerViewModel? _scheduler;
+
         private bool _isLoading = true;
         private string _loadingStatus = "Đang khởi tạo hệ thống...";
         private ObservableCollection<DashboardTaskModel> _runningDashboardTasks = new();
@@ -61,7 +61,7 @@ namespace NodeLabFarm.ViewModels
             EditScriptCommand = new RelayCommand(EditScript);
             DeleteScriptCommand = new RelayCommand(DeleteScript);
 
-            Scheduler = new SchedulerViewModel(Devices, AllScripts);
+
 
             // Start initialization
             _ = InitializeAdb();
@@ -451,11 +451,7 @@ namespace NodeLabFarm.ViewModels
             set { _scriptEditor = value; OnPropertyChanged(); }
         }
 
-        public SchedulerViewModel? Scheduler
-        {
-            get => _scheduler;
-            set { _scheduler = value; OnPropertyChanged(); }
-        }
+
 
         public ObservableCollection<ScriptModel> AllScripts => _allScripts;
 
