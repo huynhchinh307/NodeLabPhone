@@ -1,0 +1,270 @@
+<ui:FluentWindow x:Class="NodeLabFarm.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NodeLabFarm"
+        xmlns:controls="clr-namespace:NodeLabFarm.Controls"
+        xmlns:vm="clr-namespace:NodeLabFarm.ViewModels"
+        xmlns:views="clr-namespace:NodeLabFarm.Views"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        mc:Ignorable="d"
+        Title="NodeLab Farm" Height="800" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        ExtendsContentIntoTitleBar="True"
+        WindowBackdropType="Mica"
+        WindowCornerPreference="Round"
+        Icon="/Assets/app_icon.png">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Border CornerRadius="12" Background="{DynamicResource ApplicationBackgroundBrush}" ClipToBounds="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- TitleBar -->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <ui:TitleBar Grid.Row="0" Title="NodeLabFarm"/>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Sidebar -->
+                <controls:Sidebar Grid.Column="0"/>
+                
+                <!-- Main Content Area -->
+                <Grid Grid.Column="1" Margin="24">
+                    <!-- Dashboard View -->
+                    <views:DashboardView>
+                        <views:DashboardView.Style>
+                            <Style TargetType="views:DashboardView">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Dashboard">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:DashboardView.Style>
+                    </views:DashboardView>
+
+                    <!-- Devices View -->
+                    <views:DevicesView>
+                        <views:DevicesView.Style>
+                            <Style TargetType="views:DevicesView">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Devices">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:DevicesView.Style>
+                    </views:DevicesView>
+
+                    <!-- Scripts View -->
+                    <views:ScriptsView>
+                        <views:ScriptsView.Style>
+                            <Style TargetType="views:ScriptsView">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Scripts">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:ScriptsView.Style>
+                    </views:ScriptsView>
+
+                    <!-- Script Editor View -->
+                    <views:ScriptEditorView>
+                        <views:ScriptEditorView.Style>
+                            <Style TargetType="views:ScriptEditorView">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="ScriptEditor">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:ScriptEditorView.Style>
+                    </views:ScriptEditorView>
+
+                    <!-- Scheduler View -->
+                    <views:SchedulerView>
+                        <views:SchedulerView.Style>
+                            <Style TargetType="views:SchedulerView">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Scheduler">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:SchedulerView.Style>
+                    </views:SchedulerView>
+
+                    <!-- Log View -->
+                    <views:LogView>
+                        <views:LogView.Style>
+                            <Style TargetType="views:LogView">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Logs">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:LogView.Style>
+                    </views:LogView>
+
+                    <!-- Settings View -->
+                    <views:SettingsView>
+                        <views:SettingsView.Style>
+                            <Style TargetType="views:SettingsView">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Settings">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </views:SettingsView.Style>
+                    </views:SettingsView>
+
+                    <!-- Placeholder for other Views -->
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.5">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Dashboard"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Devices"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Scripts"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="ScriptEditor"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Scheduler"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Logs"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentView}" Value="Settings"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <ui:SymbolIcon Symbol="Settings24" FontSize="64" Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+                        <TextBlock Text="{Binding CurrentView, StringFormat='{} {0} View'}" FontSize="24" FontWeight="Bold" Margin="0,16,0,8" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Feature coming soon..." FontSize="16" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <!-- Loading Overlay -->
+            <!-- Modern Loading Overlay -->
+            <Grid Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="True" Panel.ZIndex="9999">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="Opacity" Value="0"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.4"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.4"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <!-- Deep Dark Gradient Background -->
+                <Border>
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#0A0B10" Offset="0"/>
+                            <GradientStop Color="#141825" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <!-- Floating/Glow elements -->
+                <Canvas Opacity="0.3">
+                    <Ellipse Width="400" Height="400" Fill="#1E40AF" Canvas.Left="-100" Canvas.Top="-100">
+                        <Ellipse.Effect>
+                            <BlurEffect Radius="150"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+                    <Ellipse Width="300" Height="300" Fill="#3B82F6" Canvas.Right="-50" Canvas.Bottom="-50">
+                        <Ellipse.Effect>
+                            <BlurEffect Radius="120"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+                </Canvas>
+
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <!-- Progress Container -->
+                    <Grid Width="160" Height="160" Margin="0,0,0,40">
+                        <!-- Outer Rotating Ring -->
+                        <ui:ProgressRing IsIndeterminate="True" 
+                                         Width="160" Height="160" 
+                                         Foreground="#3B82F6"
+                                         Background="#1AFFFFFF"/>
+                        
+                        <!-- Inner Logo -->
+                        <Border x:Name="LogoBorder" Width="90" Height="90" CornerRadius="20" Background="#0AFFFFFF" Padding="15">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="30" Color="#3B82F6" Opacity="0.4" ShadowDepth="0"/>
+                            </Border.Effect>
+                            <Image Source="/Assets/app_icon.png" RenderOptions.BitmapScalingMode="HighQuality">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Style.Triggers>
+                                            <EventTrigger RoutedEvent="Loaded">
+                                                <BeginStoryboard>
+                                                    <Storyboard RepeatBehavior="Forever">
+                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                                                         From="0.7" To="1" 
+                                                                         Duration="0:0:1.5" 
+                                                                         AutoReverse="True"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Border>
+                    </Grid>
+
+                    <TextBlock Text="NODELAB PHONE" 
+                               FontSize="28" 
+                               FontWeight="ExtraBold" 
+                               Foreground="White" 
+                               HorizontalAlignment="Center">
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="0" Color="#3B82F6" Opacity="0.5"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+
+                    <TextBlock Text="{Binding LoadingStatus, FallbackValue='�ang kh?i t?o h? th?ng...'}" 
+                               FontSize="16" 
+                               Foreground="#94A3B8" 
+                               Margin="0,12,0,0"
+                               HorizontalAlignment="Center"
+                               FontWeight="Light"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</ui:FluentWindow>

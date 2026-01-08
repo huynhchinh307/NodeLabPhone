@@ -1,0 +1,31 @@
+# .NET Core / .NET 5+ / Standard
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+# Local database / session files
+*.db
+session.dat
+crash.txt
+debug_*.txt
+
+# Logs
+*.log
+
+# Scripts (NLP files) - Nếu bạn muốn ẩn các kịch bản thực tế đã tạo
+scripts/*.nlp
+
+# User-specific folders
+.vscode/
+.idea/
+
+# Windows folder thumbnails
+Thumbs.db
+ehthumbs.db
+Desktop.ini

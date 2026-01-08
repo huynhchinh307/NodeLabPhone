@@ -1,0 +1,190 @@
+<UserControl x:Class="NodeLabFarm.Controls.Sidebar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <!-- Standard Sidebar Navigation Button -->
+        <Style x:Key="SidebarButton" TargetType="ui:Button">
+            <Setter Property="Width" Value="75"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Foreground" Value="#9ca3af"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ui:Button">
+                        <Border x:Name="MainBorder" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MainBorder" Property="Background" Value="#2d2f39"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Top Brand/Action Button (Blue Square) -->
+        <Style x:Key="BrandButton" TargetType="ui:Button">
+            <Setter Property="Width" Value="42"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Margin" Value="0,12,0,20"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ui:Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
+                            <Grid>
+                                <Image Source="/Assets/pig.png" Width="38" Height="38" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Width="85">
+        <Grid.Background>
+            <SolidColorBrush Color="#1a1c23"/>
+        </Grid.Background>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Brand Icon -->
+        <ui:Button Grid.Row="0" Style="{StaticResource BrandButton}" HorizontalAlignment="Center"
+                   Command="{Binding NavigateCommand}" CommandParameter="Dashboard"/>
+
+        <!-- Navigation Menu -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+            <StackPanel HorizontalAlignment="Center">
+                <ui:Button Command="{Binding NavigateCommand}" CommandParameter="Dashboard">
+                    <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource SidebarButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentView}" Value="Dashboard">
+                                    <Setter Property="Background" Value="#2d2f39"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:Button.Style>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <ui:SymbolIcon Symbol="Grid24" FontSize="20" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                        <TextBlock Text="Tổng quan" FontSize="9" Margin="0,4,0,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                    </StackPanel>
+                </ui:Button>
+                <ui:Button Command="{Binding NavigateCommand}" CommandParameter="Devices">
+                    <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource SidebarButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentView}" Value="Devices">
+                                    <Setter Property="Background" Value="#2d2f39"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:Button.Style>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <ui:SymbolIcon Symbol="Phone24" FontSize="20" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                        <TextBlock Text="Thiết bị" FontSize="9" Margin="0,4,0,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                    </StackPanel>
+                </ui:Button>
+                <ui:Button Command="{Binding NavigateCommand}" CommandParameter="Scripts">
+                    <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource SidebarButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentView}" Value="Scripts">
+                                    <Setter Property="Background" Value="#2d2f39"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:Button.Style>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <ui:SymbolIcon Symbol="Rocket24" FontSize="20" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                        <TextBlock Text="Kịch bản" FontSize="9" Margin="0,4,0,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                    </StackPanel>
+                </ui:Button>
+                <ui:Button Command="{Binding NavigateCommand}" CommandParameter="Scheduler">
+                    <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource SidebarButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentView}" Value="Scheduler">
+                                    <Setter Property="Background" Value="#2d2f39"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:Button.Style>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <ui:SymbolIcon Symbol="Desktop24" FontSize="20" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                        <TextBlock Text="Lập lịch" FontSize="9" Margin="0,4,0,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                    </StackPanel>
+                </ui:Button>
+                <ui:Button Command="{Binding NavigateCommand}" CommandParameter="Logs">
+                    <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource SidebarButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentView}" Value="Logs">
+                                    <Setter Property="Background" Value="#2d2f39"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:Button.Style>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <ui:SymbolIcon Symbol="Document24" FontSize="20" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                        <TextBlock Text="Nhật ký" FontSize="9" Margin="0,4,0,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                    </StackPanel>
+                </ui:Button>
+                <ui:Button Command="{Binding NavigateCommand}" CommandParameter="Settings">
+                    <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource SidebarButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentView}" Value="Settings">
+                                    <Setter Property="Background" Value="#2d2f39"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:Button.Style>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <ui:SymbolIcon Symbol="Settings24" FontSize="20" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                        <TextBlock Text="Cài đặt" FontSize="9" Margin="0,4,0,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ui:Button}, Path=Foreground}"/>
+                    </StackPanel>
+                </ui:Button>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Footer -->
+        <StackPanel Grid.Row="2" Margin="0,0,0,12" HorizontalAlignment="Center">
+             <ui:Button Command="{Binding LogoutCommand}" Style="{StaticResource SidebarButton}">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <ui:SymbolIcon Symbol="SignOut24" FontSize="20" Foreground="#f94144"/>
+                    <TextBlock Text="Đăng xuất" FontSize="9" Margin="0,4,0,0" HorizontalAlignment="Center" Foreground="#f94144"/>
+                </StackPanel>
+             </ui:Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

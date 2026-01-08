@@ -1,0 +1,629 @@
+<UserControl x:Class="NodeLabFarm.Controls.ScriptEditor.ScriptToolbox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Search -->
+            <RowDefinition Height="*"/>    <!-- Categories -->
+            <RowDefinition Height="Auto"/> <!-- Actions -->
+        </Grid.RowDefinitions>
+
+        <!-- Search Bar -->
+        <ui:TextBox x:Name="SearchBox" Grid.Row="0" PlaceholderText="Tìm kiếm lệnh..." Icon="Search24" Margin="0,0,0,16"
+                    TextChanged="SearchBox_TextChanged"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,12,0">
+            <StackPanel x:Name="CategoriesPanel">
+                
+                <!-- UI Interaction -->
+                <ui:CardExpander Header="UI Interaction" IsExpanded="True" Icon="Touch24" Margin="0,0,0,8">
+                    <StackPanel>
+                        <!-- Press Back -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Back" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ChevronLeft24" FontSize="20" Margin="0,0,12,0" Foreground="#f87171"/>
+                                <TextBlock Text="Press Back" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Press Home -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Home" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Home24" FontSize="20" Margin="0,0,12,0" Foreground="#60a5fa"/>
+                                <TextBlock Text="Press Home" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Press Menu -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="PressMenu" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Navigation24" FontSize="20" Margin="0,0,12,0" Foreground="#a78bfa"/>
+                                <TextBlock Text="Press Menu" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Touch (Tap) -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Tap" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="HandRight24" FontSize="20" Margin="0,0,12,0" Foreground="#60a5fa"/>
+                                <TextBlock Text="Touch" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Swipe/Scroll -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Swipe" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowSwap24" FontSize="20" Margin="0,0,12,0" Foreground="#f472b6"/>
+                                <TextBlock Text="Swipe / Scroll" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Screenshot -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Screenshot" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Camera24" FontSize="20" Margin="0,0,12,0" Foreground="#cbd5e1"/>
+                                <TextBlock Text="Screenshot" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Type Text -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Type" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="20" Margin="0,0,12,0" Foreground="#34d399"/>
+                                <TextBlock Text="Type Text" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Image Search -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ImageSearch" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Image24" FontSize="20" Margin="0,0,12,0" Foreground="#fbbf24"/>
+                                <TextBlock Text="Image Search" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Swipe & Check Screen -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="SwipeAndCheck" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Eye24" FontSize="20" Margin="0,0,12,0" Foreground="#22d3ee"/>
+                                <TextBlock Text="Swipe &amp; Check Screen" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Clear Text -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ClearText" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Eraser24" FontSize="20" Margin="0,0,12,0" Foreground="#f87171"/>
+                                <TextBlock Text="Clear Text" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Find Text -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="FindText" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Search24" FontSize="20" Margin="0,0,12,0" Foreground="#a3e635"/>
+                                <TextBlock Text="Find Text" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                    </StackPanel>
+                </ui:CardExpander>
+
+                <!-- Device Management -->
+                <ui:CardExpander Header="Device Management" IsExpanded="True" Icon="Phone24" Margin="0,0,0,8">
+                    <StackPanel>
+                        <!-- Set Clipboard -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="SetClipboard" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ClipboardPaste24" FontSize="20" Margin="0,0,12,0" Foreground="#d8b4fe"/>
+                                <TextBlock Text="Set Clipboard" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Get Clipboard -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="GetClipboard" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ClipboardLetter24" FontSize="20" Margin="0,0,12,0" Foreground="#c084fc"/>
+                                <TextBlock Text="Get Clipboard" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Reconnect -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Reconnect" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowSync24" FontSize="20" Margin="0,0,12,0" Foreground="#22c55e"/>
+                                <TextBlock Text="Reconnect" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Transfer File -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="TransferFile" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="FolderArrowRight24" FontSize="20" Margin="0,0,12,0" Foreground="#fcd34d"/>
+                                <TextBlock Text="Transfer File" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Screen Action -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ScreenAction" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Desktop24" FontSize="20" Margin="0,0,12,0" Foreground="#94a3b8"/>
+                                <TextBlock Text="Screen Action" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Toggle Service -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ToggleService" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Settings24" FontSize="20" Margin="0,0,12,0" Foreground="#64748b"/>
+                                <TextBlock Text="Toggle Service" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Change Device -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ChangeDevice" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="PhoneArrowRight24" FontSize="20" Margin="0,0,12,0" Foreground="#60a5fa"/>
+                                <TextBlock Text="Change Device" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Get Property Device -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="GetPropertyDevice" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Info24" FontSize="20" Margin="0,0,12,0" Foreground="#38bdf8"/>
+                                <TextBlock Text="Get Property Device" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Check Network -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="CheckNetwork" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Wifi124" FontSize="20" Margin="0,0,12,0" Foreground="#34d399"/>
+                                <TextBlock Text="Check Network" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Dump XML -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="DumpXml" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="DocumentData24" FontSize="20" Margin="0,0,12,0" Foreground="#fb923c"/>
+                                <TextBlock Text="Dump XML" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Proxy -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Proxy" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Shield24" FontSize="20" Margin="0,0,12,0" Foreground="#f43f5e"/>
+                                <TextBlock Text="Proxy" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                    </StackPanel>
+                </ui:CardExpander>
+
+                <!-- App Management -->
+                <ui:CardExpander Header="App Management" IsExpanded="False" Icon="Apps24" Margin="0,0,0,8">
+                    <StackPanel>
+                         <!-- Is Open App -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="IsOpenApp" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Apps24" FontSize="20" Margin="0,0,12,0" Foreground="#a78bfa"/>
+                                <TextBlock Text="Is Open App" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Start App -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="StartApp" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Play24" FontSize="20" Margin="0,0,12,0" Foreground="#22c55e"/>
+                                <TextBlock Text="Start App" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Stop App -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="StopApp" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Stop24" FontSize="20" Margin="0,0,12,0" Foreground="#ef4444"/>
+                                <TextBlock Text="Stop App" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Install App -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="InstallApp" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowDownload24" FontSize="20" Margin="0,0,12,0" Foreground="#60a5fa"/>
+                                <TextBlock Text="Install App" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Uninstall App -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="UninstallApp" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Delete24" FontSize="20" Margin="0,0,12,0" Foreground="#f87171"/>
+                                <TextBlock Text="Uninstall App" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Is Installed App -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="IsInstalledApp" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="QuestionCircle24" FontSize="20" Margin="0,0,12,0" Foreground="#fbbf24"/>
+                                <TextBlock Text="Is Installed App" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Backup/Restore -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="BackupRestore" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowUndo24" FontSize="20" Margin="0,0,12,0" Foreground="#34d399"/>
+                                <TextBlock Text="Backup/Restore" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Backup/Restore Device -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="BackupRestoreDevice" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Phone24" FontSize="20" Margin="0,0,12,0" Foreground="#22d3ee"/>
+                                <TextBlock Text="Backup/Restore Device" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Clear Data App -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ClearDataApp" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Eraser24" FontSize="20" Margin="0,0,12,0" Foreground="#fcd34d"/>
+                                <TextBlock Text="Clear Data App" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- Close All App -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="CloseAllApp" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="DismissCircle24" FontSize="20" Margin="0,0,12,0" Foreground="#ef4444"/>
+                                <TextBlock Text="Close All Apps" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                    </StackPanel>
+                </ui:CardExpander>
+
+                <!-- Control Flow -->
+                <ui:CardExpander Header="Control Flow" IsExpanded="False" Icon="ArrowCircleRight24" Margin="0,0,0,8">
+                    <StackPanel>
+                        <!-- Pause -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Pause" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Timer24" FontSize="20" Margin="0,0,12,0" Foreground="#fbbf24"/>
+                                <TextBlock Text="Delay / Pause" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Repeat Task -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="RepeatTask" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowRepeatAll24" FontSize="20" Margin="0,0,12,0" Foreground="#60a5fa"/>
+                                <TextBlock Text="Repeat Task" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Conditions -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Conditions" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Navigation24" FontSize="20" Margin="0,0,12,0" Foreground="#f472b6"/>
+                                <TextBlock Text="Conditions" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- While Loop -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="WhileLoop" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowSync24" FontSize="20" Margin="0,0,12,0" Foreground="#34d399"/>
+                                <TextBlock Text="While Loop" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Loop Data -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="LoopData" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowRepeatAll24" FontSize="20" Margin="0,0,12,0" Foreground="#fbbf24"/>
+                                <TextBlock Text="Loop Data" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Loop Breakpoint -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="LoopBreakpoint" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Stop24" FontSize="20" Margin="0,0,12,0" Foreground="#f87171"/>
+                                <TextBlock Text="Loop Breakpoint" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                    </StackPanel>
+                </ui:CardExpander>
+
+                <!-- General -->
+                <ui:CardExpander Header="General" IsExpanded="True" Icon="Info24" Margin="0,0,0,8">
+                    <StackPanel>
+                        <!-- Start -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Start" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="PlayCircle24" FontSize="20" Margin="0,0,12,0" Foreground="#22c55e"/>
+                                <TextBlock Text="Start" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- End -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="End" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Stop24" FontSize="20" Margin="0,0,12,0" Foreground="#ef4444"/>
+                                <TextBlock Text="End" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Resource Status -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ResourceStatus" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="DataBarHorizontal24" FontSize="20" Margin="0,0,12,0" Foreground="#06b6d4"/>
+                                <TextBlock Text="Resource Status" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Delay (Same as Pause) -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Pause" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Timer24" FontSize="20" Margin="0,0,12,0" Foreground="#fbbf24"/>
+                                <TextBlock Text="Delay" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                        
+                        <!-- HTTP Request -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="HttpRequest" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Globe24" FontSize="20" Margin="0,0,12,0" Foreground="#8b5cf6"/>
+                                <TextBlock Text="HTTP Request" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Block Group -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="BlockGroup" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Group24" FontSize="20" Margin="0,0,12,0" Foreground="#f97316"/>
+                                <TextBlock Text="Block Group" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Note -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Note" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Notepad24" FontSize="20" Margin="0,0,12,0" Foreground="#eab308"/>
+                                <TextBlock Text="Note" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                    </StackPanel>
+                </ui:CardExpander>
+                
+                <!-- System Commands -->
+                <ui:CardExpander Header="System Commands" IsExpanded="False" Icon="Desktop24" Margin="0,0,0,8">
+                    <StackPanel>
+                        <!-- JavaScript code -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="JavaScript" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Code24" FontSize="20" Margin="0,0,12,0" Foreground="#f472b6"/>
+                                <TextBlock Text="JavaScript Code" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Element exists -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ElementExists" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Eye24" FontSize="20" Margin="0,0,12,0" Foreground="#60a5fa"/>
+                                <TextBlock Text="Element Exists" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Press Key -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="PressKey" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Keyboard24" FontSize="20" Margin="0,0,12,0" Foreground="#34d399"/>
+                                <TextBlock Text="Press Key" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- ADB Command -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="AdbCommand" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Code24" FontSize="20" Margin="0,0,12,0" Foreground="#cbd5e1"/>
+                                <TextBlock Text="ADB Command" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                    </StackPanel>
+                </ui:CardExpander>
+
+                <!-- Data -->
+                <ui:CardExpander Header="Data" IsExpanded="False" Icon="Briefcase24" Margin="0,0,0,8">
+                    <StackPanel>
+                        <!-- Read file text -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ReadFileText" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="DocumentText24" FontSize="20" Margin="0,0,12,0" Foreground="#60a5fa"/>
+                                <TextBlock Text="Read file text" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Insert data -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="InsertData" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Add24" FontSize="20" Margin="0,0,12,0" Foreground="#34d399"/>
+                                <TextBlock Text="Insert data" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Delete data -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="DeleteData" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Delete24" FontSize="20" Margin="0,0,12,0" Foreground="#f87171"/>
+                                <TextBlock Text="Delete data" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Get log data -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="GetLogData" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Search24" FontSize="20" Margin="0,0,12,0" Foreground="#fb923c"/>
+                                <TextBlock Text="Get log data" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Slice variable -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="SliceVariable" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowSync24" FontSize="20" Margin="0,0,12,0" Foreground="#a78bfa"/>
+                                <TextBlock Text="Slice variable" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Increase variable -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="IncreaseVariable" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Add24" FontSize="20" Margin="0,0,12,0" Foreground="#22c55e"/>
+                                <TextBlock Text="Increase variable" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- RegEx variable -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="RegexVariable" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Search24" FontSize="20" Margin="0,0,12,0" Foreground="#f472b6"/>
+                                <TextBlock Text="RegEx variable" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Data mapping -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="DataMapping" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowSwap24" FontSize="20" Margin="0,0,12,0" Foreground="#fbbf24"/>
+                                <TextBlock Text="Data mapping" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Split Data -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="SplitData" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowSync24" FontSize="20" Margin="0,0,12,0" Foreground="#22d3ee"/>
+                                <TextBlock Text="Split Data" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Sort data -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="SortData" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Search24" FontSize="20" Margin="0,0,12,0" Foreground="#94a3b8"/>
+                                <TextBlock Text="Sort data" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Get Attribute -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="GetAttribute" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Key24" FontSize="20" Margin="0,0,12,0" Foreground="#fcd34d"/>
+                                <TextBlock Text="Get Attribute" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Random -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Random" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Key24" FontSize="20" Margin="0,0,12,0" Foreground="#38bdf8"/>
+                                <TextBlock Text="Random" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- IMAP (Read Mail) -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ImapReadMail" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Mail24" FontSize="20" Margin="0,0,12,0" Foreground="#cbbaa9"/>
+                                <TextBlock Text="IMAP (Read Mail)" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Read Hotmail -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ReadHotmail" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Mail24" FontSize="20" Margin="0,0,12,0" Foreground="#0078d4"/>
+                                <TextBlock Text="Read Hotmail" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Refresh Hotmail AccessToken -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="RefreshHotmailToken" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowSync24" FontSize="20" Margin="0,0,12,0" Foreground="#34d399"/>
+                                <TextBlock Text="Refresh Hotmail Token" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- File Action -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="FileAction" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Folder24" FontSize="20" Margin="0,0,12,0" Foreground="#eab308"/>
+                                <TextBlock Text="File Action" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Generate 2FA -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Generate2FA" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Key24" FontSize="20" Margin="0,0,12,0" Foreground="#f43f5e"/>
+                                <TextBlock Text="Generate 2FA" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                    </StackPanel>
+                </ui:CardExpander>
+
+                <!-- Online Services -->
+                <ui:CardExpander Header="Online Services" IsExpanded="False" Icon="Globe24" Margin="0,0,0,8">
+                    <StackPanel>
+                        <!-- Excel -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="Excel" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Document24" FontSize="20" Margin="0,0,12,0" Foreground="#22c55e"/>
+                                <TextBlock Text="Excel" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Google Sheets -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="GoogleSheets" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Document24" FontSize="20" Margin="0,0,12,0" Foreground="#34d399"/>
+                                <TextBlock Text="Google Sheets" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Gemini AI -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="GeminiAI" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Globe24" FontSize="20" Margin="0,0,12,0" Foreground="#60a5fa"/>
+                                <TextBlock Text="Gemini AI" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!-- Chat GPT -->
+                        <ui:Button Command="{Binding AddStepCommand}" CommandParameter="ChatGPT" HorizontalAlignment="Stretch" Margin="0,2" Appearance="Secondary" Height="32" Background="Transparent" BorderBrush="#2d2f39" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="QuestionCircle24" FontSize="20" Margin="0,0,12,0" Foreground="#a78bfa"/>
+                                <TextBlock Text="Chat GPT" VerticalAlignment="Center" Foreground="#e5e7eb"/>
+                            </StackPanel>
+                        </ui:Button>
+                    </StackPanel>
+                </ui:CardExpander>
+
+            </StackPanel>
+        </ScrollViewer>
+
+         <!-- Actions -->
+    </Grid>
+</UserControl>

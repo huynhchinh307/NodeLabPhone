@@ -1,0 +1,25 @@
+<Application x:Class="NodeLabFarm.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:local="clr-namespace:NodeLabFarm">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesDictionary Theme="Dark" />
+                <ui:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Compatibility Resources (Mapping existing keys to WPF-UI brushes or colors) -->
+            <!-- WPF-UI uses 'ApplicationBackgroundBrush' etc. We map our mock keys to them or hardcode new ones -->
+            <SolidColorBrush x:Key="MaterialDesignPaper" Color="#FFFFFF"/> <!-- Keep for now to avoid crashes in unmigrated views -->
+            <SolidColorBrush x:Key="MaterialDesignBody" Color="#000000"/>
+            <SolidColorBrush x:Key="PrimaryBrush" Color="#0078D4"/> <!-- Windows Blue -->
+            <SolidColorBrush x:Key="BackgroundBrush" Color="#F3F3F3"/>
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#0078D4"/>
+             <SolidColorBrush x:Key="MaterialDesignBodyLight" Color="#66000000"/>
+             
+             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

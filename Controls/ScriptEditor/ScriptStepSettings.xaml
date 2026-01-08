@@ -1,0 +1,278 @@
+<UserControl x:Class="NodeLabFarm.Controls.ScriptEditor.ScriptStepSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <!-- Common Delay/Timeout fields style -->
+        <ControlTemplate x:Key="CommonFieldsTemplate">
+            <StackPanel>
+                <TextBlock Text="Timeout: Thời gian báo lỗi (giây)" Foreground="#9ca3af" FontSize="11" Margin="0,8,0,4"/>
+                <ui:TextBox Text="{Binding Timeout, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="30"/>
+
+                <TextBlock Text="Delay: Thời gian chờ sau khi hoàn thành (giây)" Foreground="#9ca3af" FontSize="11" Margin="0,8,0,4"/>
+                <ui:TextBox Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="0.5"/>
+            </StackPanel>
+        </ControlTemplate>
+
+        <!-- Specialized Templates -->
+        
+        <!-- UI Interaction (Tap/Swipe) -->
+        <DataTemplate x:Key="UITapTemplate">
+            <StackPanel>
+                <TextBlock Text="Kiểu bắt đối tượng" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                <ui:DataGrid x:Name="SelectorGrid" Visibility="Collapsed"/> <!-- Marker for later if needed -->
+                <ComboBox SelectedValue="{Binding SelectorType}" SelectedValuePath="Content" Background="#1a1c23" Foreground="White" BorderBrush="#3f424e">
+                    <ComboBoxItem Content="Coordinates-Position"/>
+                    <ComboBoxItem Content="Selector-Xpath"/>
+                </ComboBox>
+
+                <TextBlock Text="Kiểu chạm" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                <ComboBox SelectedValue="{Binding TouchType}" SelectedValuePath="Content" Background="#1a1c23" Foreground="White" BorderBrush="#3f424e">
+                    <ComboBoxItem Content="Normal"/>
+                    <ComboBoxItem Content="Double"/>
+                    <ComboBoxItem Content="Long"/>
+                </ComboBox>
+
+                <!-- Input for Coordinates -->
+                <StackPanel>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectorType}" Value="Coordinates-Position">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <TextBlock Text="Tọa độ X" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                    <ui:TextBox Text="{Binding Target, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="540"/>
+                    <TextBlock Text="Tọa độ Y" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                    <ui:TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="1080"/>
+                </StackPanel>
+
+                <!-- Input for Xpath -->
+                <StackPanel>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectorType}" Value="Selector-Xpath">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <TextBlock Text="XPath Selector" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                    <ui:TextBox Text="{Binding Target, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="//node[@text='Login']"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- UI Swipe/Scroll -->
+        <DataTemplate x:Key="UISwipeTemplate">
+            <StackPanel>
+                <TextBlock Text="Chế độ Vuốt/Cuộn" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                <ComboBox SelectedValue="{Binding SwipeMode}" SelectedValuePath="Content" Background="#1a1c23" Foreground="White" BorderBrush="#3f424e">
+                    <ComboBoxItem Content="Simple"/>
+                    <ComboBoxItem Content="Custom"/>
+                    <ComboBoxItem Content="Random"/>
+                </ComboBox>
+
+                <!-- Simple Mode -->
+                <StackPanel>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SwipeMode}" Value="Simple">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <TextBlock Text="Hướng vuốt (Direction)" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                    <ComboBox SelectedValue="{Binding SwipeDirection}" SelectedValuePath="Content" Background="#1a1c23" Foreground="White" BorderBrush="#3f424e">
+                        <ComboBoxItem Content="Up"/>
+                        <ComboBoxItem Content="Down"/>
+                        <ComboBoxItem Content="Left"/>
+                        <ComboBoxItem Content="Right"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Custom Mode -->
+                <StackPanel>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SwipeMode}" Value="Custom">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <Grid Margin="0,12,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Start X" Foreground="#9ca3af" FontSize="11" Margin="0,0,0,4"/>
+                        <ui:TextBox Grid.Row="1" Grid.Column="0" Text="{Binding StartX, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="100"/>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Start Y" Foreground="#9ca3af" FontSize="11" Margin="0,0,0,4"/>
+                        <ui:TextBox Grid.Row="1" Grid.Column="2" Text="{Binding StartY, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="500"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="End X" Foreground="#9ca3af" FontSize="11" Margin="0,12,0,4"/>
+                        <ui:TextBox Grid.Row="3" Grid.Column="0" Text="{Binding EndX, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="100"/>
+                        
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="End Y" Foreground="#9ca3af" FontSize="11" Margin="0,12,0,4"/>
+                        <ui:TextBox Grid.Row="3" Grid.Column="2" Text="{Binding EndY, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="200"/>
+                    </Grid>
+
+                    <TextBlock Text="Thời gian vuốt (Duration - ms)" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                    <ui:TextBox Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="300"/>
+                </StackPanel>
+
+                <!-- Random Mode -->
+                <StackPanel>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SwipeMode}" Value="Random">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <TextBlock Text="Sẽ thực hiện vuốt ngẫu nhiên trên màn hình." Foreground="#9ca3af" FontSize="11" Margin="0,12,0,4" FontStyle="Italic"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Typing -->
+        <DataTemplate x:Key="TypeTextTemplate">
+            <StackPanel>
+                <TextBlock Text="Focus Input (XPath - Tùy chọn)" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                <ui:TextBox Text="{Binding Target, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="//node[@resource-id='login_input']"/>
+
+                <TextBlock Text="Đoạn văn bản cần nhập (Text)" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                <ui:TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" MinHeight="100" TextWrapping="Wrap" AcceptsReturn="True" PlaceholderText="Nhập văn bản tại đây..."/>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- App Management -->
+        <DataTemplate x:Key="AppManagementTemplate">
+            <StackPanel>
+                <TextBlock Text="Tên gói ứng dụng (Package Name)" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                <ui:TextBox Text="{Binding Target, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="com.android.settings"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Code/ADB Command -->
+        <DataTemplate x:Key="CodeCommandTemplate">
+            <StackPanel>
+                <TextBlock Text="Câu lệnh / Mã nguồn" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                <ui:TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" MinHeight="150" FontFamily="Consolas" TextWrapping="Wrap" AcceptsReturn="True" PlaceholderText="shell am force-stop..."/>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Control Flow (Repeat) -->
+        <DataTemplate x:Key="RepeatTemplate">
+            <StackPanel>
+                <TextBlock Text="Số lần lặp lại" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                <ui:TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="10"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Default/Generic -->
+        <DataTemplate x:Key="DefaultActionTemplate">
+            <StackPanel>
+                <TextBlock Text="Đối tượng (Target)" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                <ui:TextBox Text="{Binding Target, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Giá trị (Value)" Foreground="#d1d5db" Margin="0,12,0,4"/>
+                <ui:TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" MinHeight="60" TextWrapping="Wrap" AcceptsReturn="True"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
+        <StackPanel DataContext="{Binding SelectedStep}" Margin="0,0,0,24">
+            <!-- Header -->
+            <Grid Margin="0,0,0,24">
+                <StackPanel Orientation="Horizontal">
+                    <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="20" Foreground="#3b82f6" Margin="0,0,12,0"/>
+                    <TextBlock Text="{Binding DisplayName}" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                <ui:Button HorizontalAlignment="Right" Appearance="Transparent" 
+                           Command="{Binding DataContext.CloseStepSettingsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                    <ui:SymbolIcon Symbol="Dismiss24"/>
+                </ui:Button>
+            </Grid>
+
+            <!-- Common Fields -->
+            <ContentControl Template="{StaticResource CommonFieldsTemplate}"/>
+            
+            <Border Height="1" Background="#2d2f39" Margin="0,20"/>
+            
+            <TextBlock Text="Cấu hình chi tiết" FontSize="14" FontWeight="SemiBold" Foreground="#60a5fa" Margin="0,0,0,12"/>
+
+            <!-- Dynamic Content based on StepType -->
+            <ContentControl Content="{Binding}">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="ContentTemplate" Value="{StaticResource DefaultActionTemplate}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Type}" Value="Tap">
+                                <Setter Property="ContentTemplate" Value="{StaticResource UITapTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="Swipe">
+                                <Setter Property="ContentTemplate" Value="{StaticResource UISwipeTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="Type">
+                                <Setter Property="ContentTemplate" Value="{StaticResource TypeTextTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="OpenApp">
+                                <Setter Property="ContentTemplate" Value="{StaticResource AppManagementTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="StartApp">
+                                <Setter Property="ContentTemplate" Value="{StaticResource AppManagementTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="StopApp">
+                                <Setter Property="ContentTemplate" Value="{StaticResource AppManagementTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="AdbCommand">
+                                <Setter Property="ContentTemplate" Value="{StaticResource CodeCommandTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="JavaScript">
+                                <Setter Property="ContentTemplate" Value="{StaticResource CodeCommandTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="RepeatTask">
+                                <Setter Property="ContentTemplate" Value="{StaticResource RepeatTemplate}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+
+            <!-- Finalize Button -->
+            <ui:Button Command="{Binding DataContext.CloseStepSettingsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                        Appearance="Primary" Content="Hoàn tất" Margin="0,32,0,0" Height="40" HorizontalAlignment="Stretch"/>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

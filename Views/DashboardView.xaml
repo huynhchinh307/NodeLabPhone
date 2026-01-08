@@ -1,0 +1,145 @@
+<UserControl x:Class="NodeLabFarm.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:controls="clr-namespace:NodeLabFarm.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="850" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <!-- Stats Card with distinct background and glow -->
+        <Style x:Key="StatsCard" TargetType="ui:Card">
+            <Setter Property="Padding" Value="18"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#1Affffff"/>
+            <Setter Property="Margin" Value="0,0,16,0"/>
+            <Setter Property="Background" Value="#11ffffff"/>
+        </Style>
+
+        <!-- Main Workspace Card Style -->
+        <Style x:Key="WorkspaceCard" TargetType="ui:Card">
+            <Setter Property="Background" Value="#08ffffff"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#1Affffff"/>
+            <Setter Property="Padding" Value="24"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#020202">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Top Area (Dark Surface) -->
+            <RowDefinition Height="*"/>    <!-- Bottom Area (Monitoring) -->
+        </Grid.RowDefinitions>
+
+        <!-- TOP SECTION: Branding & Stats -->
+        <Border Grid.Row="0" Background="#0A0A0A" BorderThickness="0,0,0,1" BorderBrush="#1Affffff">
+            <Grid Margin="28,28,28,28">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="0,0,0,24">
+                    <TextBlock Text="Chào mừng quay trở lại," FontSize="14" Foreground="#9ca3af" FontWeight="SemiBold"/>
+                    <TextBlock Text="TT. Điều Khiển Hệ Thống" FontSize="36" FontWeight="ExtraBold" Margin="0,4,0,0">
+                        <TextBlock.Foreground>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="White" Offset="0"/>
+                                <GradientStop Color="#0078d4" Offset="1.5"/>
+                            </LinearGradientBrush>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </StackPanel>
+
+                <!-- Stats in a Horizontal Row -->
+                <UniformGrid Grid.Row="1" Columns="4">
+                    <ui:Card Style="{StaticResource StatsCard}" BorderBrush="#330D6EFD">
+                        <StackPanel>
+                            <ui:SymbolIcon Symbol="Phone24" Foreground="#0D6EFD" FontSize="20" HorizontalAlignment="Left"/>
+                            <TextBlock Text="Tổng thiết bị" Foreground="#9ca3af" FontSize="11" Margin="0,12,0,0"/>
+                            <TextBlock Text="{Binding TotalDevicesCount}" Foreground="White" FontSize="24" FontWeight="Bold"/>
+                        </StackPanel>
+                    </ui:Card>
+
+                    <ui:Card Style="{StaticResource StatsCard}" BorderBrush="#33198754">
+                        <StackPanel>
+                            <ui:SymbolIcon Symbol="Link24" Foreground="#198754" FontSize="20" HorizontalAlignment="Left"/>
+                            <TextBlock Text="Trạng thái Online" Foreground="#9ca3af" FontSize="11" Margin="0,12,0,0"/>
+                            <TextBlock Text="{Binding OnlineDevicesCount}" Foreground="#4ade80" FontSize="24" FontWeight="Bold"/>
+                        </StackPanel>
+                    </ui:Card>
+
+                    <ui:Card Style="{StaticResource StatsCard}" BorderBrush="#33FFC107">
+                        <StackPanel>
+                            <ui:SymbolIcon Symbol="Code24" Foreground="#FFC107" FontSize="20" HorizontalAlignment="Left"/>
+                            <TextBlock Text="Thư viện kịch bản" Foreground="#9ca3af" FontSize="11" Margin="0,12,0,0"/>
+                            <TextBlock Text="{Binding AllScripts.Count}" Foreground="#fbbf24" FontSize="24" FontWeight="Bold"/>
+                        </StackPanel>
+                    </ui:Card>
+
+                    <ui:Card Style="{StaticResource StatsCard}" BorderBrush="#33DC3545" Margin="0">
+                        <StackPanel>
+                            <ui:SymbolIcon Symbol="Target24" Foreground="#DC3545" FontSize="20" HorizontalAlignment="Left"/>
+                            <TextBlock Text="Luồng đang chạy" Foreground="#9ca3af" FontSize="11" Margin="0,12,0,0"/>
+                            <TextBlock Text="{Binding RunningThreadsCount}" Foreground="#f87171" FontSize="24" FontWeight="Bold"/>
+                        </StackPanel>
+                    </ui:Card>
+                </UniformGrid>
+            </Grid>
+        </Border>
+
+        <!-- BOTTOM SECTION: Device Monitoring (Main Workspace) -->
+        <Grid Grid.Row="1" Margin="28">
+            <ui:Card Style="{StaticResource WorkspaceCard}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="0,0,0,24">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="4" Height="24" Background="#0D6EFD" CornerRadius="2" Margin="0,0,16,0"/>
+                            <TextBlock Text="GIÁM SÁT THIẾT BỊ" FontSize="20" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <ui:DropDownButton Content="Bộ lọc trạng thái" Appearance="Secondary" Margin="0,0,12,0">
+                                <ui:DropDownButton.Flyout>
+                                    <ContextMenu>
+                                        <MenuItem Header="Tất cả thiết bị"/>
+                                        <MenuItem Header="Đang Online"/>
+                                        <MenuItem Header="Đang Offline"/>
+                                    </ContextMenu>
+                                </ui:DropDownButton.Flyout>
+                            </ui:DropDownButton>
+                            
+                            <ui:Button Appearance="Primary" Padding="20,10" Command="{Binding RefreshCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon Symbol="ArrowSync24" Margin="0,0,10,0" FontSize="18"/>
+                                    <TextBlock Text="LÀM MỚI DANH SÁCH" FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </ui:Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding AllDevices}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <controls:DeviceCard Margin="0,0,20,20"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </ui:Card>
+        </Grid>
+    </Grid>
+</UserControl>
