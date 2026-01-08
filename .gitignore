@@ -1,6 +1,8 @@
 # .NET Core / .NET 5+ / Standard
 bin/
 obj/
+publish*/
+
 
 # Visual Studio files
 .vs/
