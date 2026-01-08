@@ -94,8 +94,32 @@
                             <Grid ClipToBounds="True" MouseDown="Screen_MouseDown" MouseMove="PreviewContainer_MouseMove" x:Name="PreviewContainer" Background="Transparent">
                                 <Image Source="{Binding ScreenImage}" Stretch="Uniform" x:Name="PreviewImage"/>
                                 
+                                <!-- Visual Overlay (Scales with image) -->
+                                <Viewbox Stretch="Uniform" IsHitTestVisible="False">
+                                    <Canvas Width="{Binding ScreenImage.PixelWidth}" Height="{Binding ScreenImage.PixelHeight}">
+                                        <Rectangle Stroke="#ef4444" StrokeThickness="4"
+                                                   Canvas.Left="{Binding RectX}"
+                                                   Canvas.Top="{Binding RectY}"
+                                                   Width="{Binding RectWidth}"
+                                                   Height="{Binding RectHeight}">
+                                            <Rectangle.Effect>
+                                                <DropShadowEffect BlurRadius="8" ShadowDepth="0" Color="Black" Opacity="0.8"/>
+                                            </Rectangle.Effect>
+                                            <Rectangle.Style>
+                                                <Style TargetType="Rectangle">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding RectWidth}" Value="0">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Rectangle.Style>
+                                        </Rectangle>
+                                    </Canvas>
+                                </Viewbox>
+
                                 <!-- Tooltip Overlay for coordinate info -->
-                                <Border VerticalAlignment="Top" HorizontalAlignment="Center" Background="#AA000000" CornerRadius="10" Padding="8,4" Margin="0,10,0,0">
+                                <Border VerticalAlignment="Top" HorizontalAlignment="Center" Background="#AA000000" CornerRadius="10" Padding="8,4" Margin="0,10,0,0" IsHitTestVisible="False">
                                      <StackPanel Orientation="Horizontal">
                                          <ui:SymbolIcon Symbol="LockClosed16" Margin="0,0,6,0" Visibility="{Binding IsInspectLocked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                          <TextBlock Text="{Binding InspectInfo}" Foreground="White" FontSize="10" FontWeight="Bold"/>

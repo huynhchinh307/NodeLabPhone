@@ -529,6 +529,7 @@ namespace NodeLabFarm.ViewModels
                 }
 
                 model.Index = i++;
+                model.FileName = fileInfo.Name;
                 loadedScripts.Add(model);
             }
 
@@ -805,14 +806,29 @@ namespace NodeLabFarm.ViewModels
             {
                 if (MessageBox.Show($"Bạn có chắc chắn muốn xóa kịch bản '{script.Name}'?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    _allScripts.Remove(script);
-                    UpdatePagedScripts();
-
                     var scriptsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scripts");
-                    var filePath = Path.Combine(scriptsDir, $"{script.Name}.nlp");
+                    // Use actual filename if known, otherwise fall back to name-based guess
+                    var fileName = !string.IsNullOrEmpty(script.FileName) ? script.FileName : $"{script.Name}.nlp";
+                    var filePath = Path.Combine(scriptsDir, fileName);
+
                     if (File.Exists(filePath))
                     {
-                        try { File.Delete(filePath); } catch { }
+                        try 
+                        { 
+                            File.Delete(filePath);
+                            _allScripts.Remove(script);
+                            UpdatePagedScripts();
+                        } 
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Lỗi khi xóa file: {ex.Message}");
+                        }
+                    }
+                    else
+                    {
+                        // Even if file is missing, remove from list to stay in sync
+                        _allScripts.Remove(script);
+                        UpdatePagedScripts();
                     }
                 }
             }

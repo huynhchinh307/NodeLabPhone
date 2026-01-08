@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace NodeLabFarm.Models
 {
@@ -292,7 +293,15 @@ namespace NodeLabFarm.Models
         private string _version = "1.0.0";
         private DateTime _lastModified = DateTime.Now;
         private string _description = string.Empty;
+        private string _fileName = string.Empty;
         private ObservableCollection<ScriptStepModel> _steps = new();
+
+        [JsonIgnore]
+        public string FileName
+        {
+            get => _fileName;
+            set { _fileName = value; OnPropertyChanged(); }
+        }
 
         public string Id
         {

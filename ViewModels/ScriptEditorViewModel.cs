@@ -156,6 +156,12 @@ namespace NodeLabFarm.ViewModels
             set { _selectedCoords = value; OnPropertyChanged(); }
         }
 
+        private double _rectX, _rectY, _rectWidth, _rectHeight;
+        public double RectX { get => _rectX; set { _rectX = value; OnPropertyChanged(); } }
+        public double RectY { get => _rectY; set { _rectY = value; OnPropertyChanged(); } }
+        public double RectWidth { get => _rectWidth; set { _rectWidth = value; OnPropertyChanged(); } }
+        public double RectHeight { get => _rectHeight; set { _rectHeight = value; OnPropertyChanged(); } }
+
         public ICommand AddStepCommand { get; }
         public ICommand RemoveStepCommand { get; }
         public ICommand SelectStepCommand { get; }
@@ -296,9 +302,21 @@ namespace NodeLabFarm.ViewModels
                 if (!Directory.Exists(scriptsDir)) Directory.CreateDirectory(scriptsDir);
 
                 var filePath = Path.Combine(scriptsDir, fileName);
+
+                // GHOST FILE FIX: If we have an old filename and it's different from the new one, delete the old file
+                if (!string.IsNullOrEmpty(CurrentScript.FileName) && CurrentScript.FileName != fileName)
+                {
+                    var oldPath = Path.Combine(scriptsDir, CurrentScript.FileName);
+                    if (File.Exists(oldPath))
+                    {
+                        try { File.Delete(oldPath); } catch { }
+                    }
+                }
+
                 var json = JsonSerializer.Serialize(CurrentScript, new JsonSerializerOptions { WriteIndented = true });
                 
                 File.WriteAllText(filePath, json);
+                CurrentScript.FileName = fileName;
                 
                 MessageBox.Show("Lưu kịch bản thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
                 
@@ -380,6 +398,7 @@ namespace NodeLabFarm.ViewModels
 
             Dictionary<string, string>? target = null;
             int minArea = int.MaxValue;
+            double rx = 0, ry = 0, rw = 0, rh = 0;
 
             foreach (var node in _hierarchyNodes)
             {
@@ -396,40 +415,38 @@ namespace NodeLabFarm.ViewModels
                         if (x >= x1 && x <= x2 && y >= y1 && y <= y2)
                         {
                             int area = (x2 - x1) * (y2 - y1);
-                            if (area < minArea)
+                            if (area <= minArea) // Use <= to prefer smaller nested nodes if areas are same
                             {
                                 minArea = area;
                                 target = node;
+                                rx = x1; ry = y1; rw = x2 - x1; rh = y2 - y1;
                             }
                         }
                     }
                 }
             }
 
-            if (target != HoveredElement)
+            if (target != null)
             {
+                RectX = rx; RectY = ry; RectWidth = rw; RectHeight = rh;
                 HoveredElement = target;
-                if (target != null)
-                {
-                    string text = target.ContainsKey("text") ? target["text"] : "";
-                    string id = target.ContainsKey("resource-id") ? (target["resource-id"].Contains("/") ? target["resource-id"].Split('/').Last() : target["resource-id"]) : "";
-                    string cls = target.ContainsKey("class") ? target["class"].Split('.').Last() : "";
-                    
-                    // Update formatted XPath
-                    string xpath = $"//{cls}";
-                    if (!string.IsNullOrEmpty(id)) xpath += $"[@id='{id}']";
-                    else if (!string.IsNullOrEmpty(text)) xpath += $"[@text='{text}']";
+                
+                string tag = target.GetValueOrDefault("class", "node");
+                tag = tag.Contains(".") ? tag.Split('.').Last() : tag;
+                
+                string attr = target.ContainsKey("resource-id") && !string.IsNullOrEmpty(target["resource-id"]) ? $"[@resource-id='{target["resource-id"]}']" : 
+                             (target.ContainsKey("text") && !string.IsNullOrEmpty(target["text"]) ? $"[@text='{target["text"]}']" : "");
 
-                    SelectedXPath = xpath;
-                    SelectedCoords = $"{x},{y}";
-                    InspectInfo = $"X:{x}, Y:{y} | XPath: {xpath}";
-                }
-                else
-                {
-                    SelectedCoords = $"{x},{y}";
-                    SelectedXPath = "";
-                    InspectInfo = $"X:{x}, Y:{y} (No element)";
-                }
+                SelectedXPath = $"//{tag}{attr}";
+                SelectedCoords = $"{x},{y}";
+                InspectInfo = $"X:{x}, Y:{y} | XPath: {SelectedXPath}";
+            }
+            else
+            {
+                RectWidth = 0;
+                SelectedCoords = $"{x},{y}";
+                SelectedXPath = "";
+                InspectInfo = $"X:{x}, Y:{y} | (Không có phần tử)";
             }
         }
 
